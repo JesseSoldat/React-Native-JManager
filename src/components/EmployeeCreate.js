@@ -4,12 +4,16 @@ import { Card, CardSection, Button } from './common';
 import EmployeeForm from './EmployeeForm';
 
 class EmployeeCreate extends Component {
+	onButtonPress() {
+
+	}
+
 	render() {
 		return (
 			<Card>
 				<EmployeeForm />
 				<CardSection>
-					<Button>
+					<Button onPress={this.onButtonPress.bind(this)}>
 						Create
 					</Button>
 				</CardSection>
@@ -18,4 +22,8 @@ class EmployeeCreate extends Component {
 	}
 }
 
-export default EmployeeCreate;
+const mapStateToProps = (state) => {
+	return {};
+};
+
+export default connect(mapStateToProps)(EmployeeCreate);
