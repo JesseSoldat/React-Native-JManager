@@ -1,12 +1,22 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import _ from 'lodash';
+import { connect } from 'react-redux';
+import { ListView, Text } from 'react-native';
+import ListItem from './ListItem';
 
 class EmployeeList extends Component {
+
 	render() {
 		return (
-			<Text>EmployeeList</Text>
+			<Text
+
+			/>
 		);
 	}
 }
 
-export default EmployeeList;
+const mapStateToProps = state => {
+
+};
+
+export default connect(null)(EmployeeList);
