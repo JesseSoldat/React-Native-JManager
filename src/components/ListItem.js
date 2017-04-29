@@ -9,11 +9,13 @@ class ListItem extends Component {
 	}
 
 	render() {
+		const { name } = this.props.employee;
 		return (
 			<TouchableWithoutFeedback onPress={this.onRowPress.bind(this)}>
 				<View>
 					<CardSection>
-						<Text>
+						<Text style={styles.titleStyle}>
+							{name}
 						</Text>
 					</CardSection>
 				</View>
@@ -21,5 +23,12 @@ class ListItem extends Component {
 		);
 	}
 }
+
+const styles = {
+	titleStyle: {
+		fontSize: 18,
+		paddingLeft: 15
+	}
+};
 
 export default ListItem;
