@@ -2,16 +2,24 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import EmployeeForm from './EmployeeForm';
-import { employeeUpdate, employeeSave } from '../actions';
-import { Card, CardSection, Button } from './common';
+import { employeeUpdate, employeeSave, employeeDelete } from '../actions';
+import { Card, CardSection, Button, Confirm } from './common';
+import Communications from 'react-native-communications';
 
 class EmployeeEdit extends Component {
 	state = { showModal: false };
 
 	componentWillMount() {
-		console.log(this.props.employee);
+		// console.log(this.props.employee);
+		//{name: "Candy", phone: "887-345-9876", shift: "Monday", uid: "-KisLXOWv0NobD4SK8y9"}
+		//passed through the router
+		//Actions.employeeEdit({ employee: this.props.employee });
+		//for each prop in object (employee) take the value and key
 		_.each(this.props.employee, (value, prop) => {
 			this.props.employeeUpdate({ prop, value });
+			//send the prop and value to the reducer 
+			//return {...state, [action.payload.prop]: action.payload.value};
+			
 		});
 	}
 
@@ -19,6 +27,22 @@ class EmployeeEdit extends Component {
 		const { name, phone, shift } = this.props;
 
 		this.props.employeeSave({ name, phone, shift, uid: this.props.employee.uid});
+	}
+
+	onTextPress() {
+		const { phone, shift } = this.props;
+
+		Communications.text(phone, `Your upcoming shift is next ${shift}`);
+	}
+
+	onAccept() {
+		const { uid } = this.props.employee;
+
+		this.props.employeeDelete({ uid });
+	}
+
+	onDecline() {
+		this.setState({ showModal: false });
 	}
 
 	render() {
@@ -33,16 +57,24 @@ class EmployeeEdit extends Component {
 				</CardSection>
 
 				<CardSection>
-					<Button>
+					<Button onPress={this.onTextPress.bind(this)}>
 						Text Schedule
 					</Button>
 				</CardSection>
 
 				<CardSection>
-					<Button>
+					<Button onPress={() => this.setState({showModal: true})}>
 						Fire Employee
 					</Button>
 				</CardSection>
+
+				<Confirm
+					visible={this.state.showModal}
+					onAccept={this.onAccept.bind(this)}
+					onDecline={this.onDecline.bind(this)}
+				> 
+					Are you sure you want to delete this person?
+				</Confirm>
 			</Card>
 		);
 	}
@@ -55,5 +87,5 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, {
-	employeeUpdate, employeeSave
+	employeeUpdate, employeeSave, employeeDelete
 })(EmployeeEdit);

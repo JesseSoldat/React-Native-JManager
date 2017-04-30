@@ -41,6 +41,11 @@ class EmployeeList extends Component {
 }
 
 const mapStateToProps = state => {
+	//state.employees is and object return from firebase with key/value pairs
+	//(val, uid) val = name, phone, shift  |||| uid = id:
+	//for each object return
+	//{name: 'Jesse', phone: '555-345-3435', shift: 'Monday' id: '24sr32fsrww33'}
+	//into a new array called employees
 	const employees = _.map(state.employees, (val, uid) => {
 		return {...val, uid };
 	});
